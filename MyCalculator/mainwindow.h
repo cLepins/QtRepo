@@ -4,7 +4,12 @@
 #include <QMainWindow>
 #include <QStack>
 #include <QString>
+#include <QDebug>
 #include <QByteArray>
+#include <QKeyEvent>
+#include <math.h>
+#include <QMap>
+#include <QPushButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,15 +30,8 @@ private slots:
     void btnNumClicked();
     void btnOperandClicked();
 
-    void on_mutiplyButton_clicked();
-
-    void on_minusButton_clicked();
-
-    void on_plusButton_clicked();
-
-    void on_equalButton_clicked();
-
-    void on_divideButton_clicked();
+    void btnSigleOperandClicked();
+    void keyPressEvent(QKeyEvent* event);
 
     void on_delButton_clicked();
 
@@ -49,14 +47,14 @@ private slots:
 
 
 
-    void on_fenshuButton_clicked();
-
-    void on_doubleXButton_clicked();
+    void on_equalButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     QString Edit;
     QStack<QString> operands_;
     QStack<QString> opercodes_;
+    QMap<int,QPushButton*> btnNums;
+
 };
 #endif // MAINWINDOW_H

@@ -5,7 +5,39 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
+    this->setFocusPolicy(Qt::StrongFocus);
+    btnNums = {{Qt::Key_0,ui->zeroButton},
+                {Qt::Key_1,ui->oneButton},
+               {Qt::Key_2,ui->twoButton},
+               {Qt::Key_3,ui->threeButton},
+               {Qt::Key_4,ui->fourButton},
+               {Qt::Key_5,ui->fiveButton},
+               {Qt::Key_6,ui->sixButton},
+               {Qt::Key_7,ui->sevenButton},
+               {Qt::Key_8,ui->eightButton},
+               {Qt::Key_9,ui->nineButton}};
+    for(auto btnKey : btnNums.keys())
+    {
+        QPushButton* button = btnNums[btnKey];
+        if (button)  // 检查按钮是否为 nullptr
+        {
+            connect(button, &QPushButton::clicked, this, [=]() {
+                if (ui->lineEdit) {  // 检查 lineEdit 是否初始化
+                    ui->lineEdit->insert(button->text());  // 在 lineEdit 中插入按钮文本
+                } else {
+                    qDebug() << "lineEdit is null!";
+                }
+            });
+        }
+        else
+        {
+            qDebug() << "Button for key" << btnKey << "is null!";
+        }
+    }
+
+
     connect(ui->oneButton,SIGNAL(clicked()),this,SLOT(btnNumClicked()));
     connect(ui->twoButton,SIGNAL(clicked()),this,SLOT(btnNumClicked()));
     connect(ui->threeButton,SIGNAL(clicked()),this,SLOT(btnNumClicked()));
@@ -18,8 +50,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->mutiplyButton,SIGNAL(clicked()),this,SLOT(btnOperandClicked()));
     connect(ui->minusButton,SIGNAL(clicked()),this,SLOT(btnOperandClicked()));
-    connect(ui->delButton,SIGNAL(clicked()),this,SLOT(btnOperandClicked()));
+    connect(ui->divideButton,SIGNAL(clicked()),this,SLOT(btnOperandClicked()));
     connect(ui->plusButton,SIGNAL(clicked()),this,SLOT(btnOperandClicked()));
+    connect(ui->pushButton_25,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
+    connect(ui->pushButton_11,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
+    connect(ui->fenshuButton,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
+    connect(ui->doubleXButton,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
+
+
 }
 
 MainWindow::~MainWindow()
@@ -39,72 +77,59 @@ void MainWindow::btnNumClicked()
 QString MainWindow::calculation()
 {
     //计算
+    double result = 0;
     double num1,num2;
-    QString res;
+    //有两个数字
     if(this->operands_.size() > 1 && this->opercodes_.size() > 0)
     {
         num1 = this->operands_.top().toDouble();
         this->operands_.pop();
         num2 = this->operands_.top().toDouble();
         this->operands_.pop();
+        auto elem = this->opercodes_.top();
+        this->opercodes_.pop();
+        if(elem == "+"){
+            result = num1 + num2;
+        }else if(elem == "-"){
+            result = num2 - num1;
+        }else if(elem == "×"){
+            result = num2 * num1;
+        }else if(elem == "/"){
+            result = num2 / num1;
+        }
+        this->operands_.push(QString::number(result));
+        return QString::number(result);
     }
-    return res;
+    else return this->operands_.top();
 }
 
 void MainWindow::btnOperandClicked()
 {
-    QString fuhao = qobject_cast<QPushButton *>(sender())->text();
     if(this->Edit != "")
     {
+        //数字入栈
         this->operands_.push_back(this->Edit);
         this->Edit.clear();
+    }
+
+    //直接进行判断 是否有结果
+    QString result = this->calculation();
+    //输出结果
+    ui->lineEdit->setText(result);
+
+    if(this->operands_.size()){//数字队列不为空 符号才入栈
+        QString fuhao = qobject_cast<QPushButton *>(sender())->text();
         this->opercodes_.push(fuhao);
     }
-
-    //点击了一个操作符
-    //判断操作符栈 是否有操作符
-    //有则计算
-    QString result = this->calculation();
-
 }
 
 
 
 
-void MainWindow::on_mutiplyButton_clicked()
-{
-    if(this->Edit != "")
-    {
-        this->Edit.clear();
-        ui->lineEdit->setText(this->Edit);
-    }
-}
 
 
-void MainWindow::on_minusButton_clicked()
-{
-    this->Edit += '-';
-    ui->lineEdit->setText(this->Edit);
-}
 
 
-void MainWindow::on_plusButton_clicked()
-{
-
-
-}
-
-
-void MainWindow::on_divideButton_clicked()
-{
-    this->Edit += '/';
-    ui->lineEdit->setText(this->Edit);
-}
-
-void MainWindow::on_equalButton_clicked()
-{
-
-}
 
 
 
@@ -155,18 +180,51 @@ void MainWindow::on_zeroButton_clicked()
     ui->lineEdit->setText(this->Edit);
 }
 
-void MainWindow::on_fenshuButton_clicked()
+
+void MainWindow::btnSigleOperandClicked()
 {
-    this->Edit += "^-1";
-    ui->lineEdit->setText(this->Edit);
+    if(this->Edit != "")
+    {
+        double result = this->Edit.toDouble();
+        QString fuhao = qobject_cast<QPushButton *>(sender())->text();
+        if(fuhao == "%"){
+            result /= 100.0;
+        }else if(fuhao == "1/x"){
+            result = 1/result;
+        }else if(fuhao == "x^2"){
+            result *= result;
+        }
+        else if(fuhao == "√"){
+            result = sqrt(result);
+        }
+        ui->lineEdit->setText(QString::number(result));
+    }
+}
+
+void MainWindow::on_equalButton_clicked()
+{
+    if(this->Edit != "")
+    {
+        //数字入栈
+        this->operands_.push_back(this->Edit);
+        this->Edit.clear();
+    }
+
+    //直接进行判断 是否有结果
+    QString result = this->calculation();
+    //输出结果
+    ui->lineEdit->setText(result);
 }
 
 
-void MainWindow::on_doubleXButton_clicked()
+
+void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    this->Edit += "^2";
-    ui->lineEdit->setText(this->Edit);
+    int key = event->key();
+    if (btnNums.contains(key))
+    {
+        QPushButton* button = btnNums[key];
+        button->animateClick();  // 模拟按钮点击
+        //ui->lineEdit->insert(button->text());  // 更新 lineEdit 内容
+    }
 }
-
-
-
