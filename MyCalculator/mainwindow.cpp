@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     this->setFocusPolicy(Qt::StrongFocus);
-    btnNums = {{Qt::Key_0,ui->zeroButton},
+    btnNums = {
                 {Qt::Key_1,ui->oneButton},
                {Qt::Key_2,ui->twoButton},
                {Qt::Key_3,ui->threeButton},
@@ -37,6 +37,30 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
 
+    // btnOps = {
+    //     {Qt::Key_Plus, ui->plusButton},
+    //     {Qt::Key_Minus, ui->minusButton},
+    //     {Qt::Key_Asterisk, ui->mutiplyButton},
+    //     {Qt::Key_Slash, ui->divideButton},
+    //     {Qt::Key_Equal, ui->equalButton}
+    // };
+    // 连接运算符按钮
+    // for (auto btnKey : btnOps.keys()) {
+    //     QPushButton* button = btnOps[btnKey];
+    //     if (button) {
+    //         connect(button, &QPushButton::clicked, this, [=]() {
+    //             if (ui->lineEdit) {
+    //                 ui->lineEdit->insert(button->text());
+    //             } else {
+    //                 qDebug() << "lineEdit is null!";
+    //             }
+    //         });
+    //     } else {
+    //         qDebug() << "Button for key" << btnKey << "is null!";
+    //     }
+    // }
+
+
 
     connect(ui->oneButton,SIGNAL(clicked()),this,SLOT(btnNumClicked()));
     connect(ui->twoButton,SIGNAL(clicked()),this,SLOT(btnNumClicked()));
@@ -56,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_11,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
     connect(ui->fenshuButton,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
     connect(ui->doubleXButton,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
-
+    connect(ui->modeButton,SIGNAL(clicked()),this,SLOT(btnSigleOperandClicked()));
 
 }
 
@@ -154,11 +178,7 @@ void MainWindow::on_CeButton_clicked()
 }
 
 
-void MainWindow::on_modeButton_clicked()
-{
-    this->Edit += '%';
-    ui->lineEdit->setText(this->Edit);
-}
+
 
 //一个数字只能有一个dot
 void MainWindow::on_dotButton_clicked()
@@ -183,9 +203,9 @@ void MainWindow::on_zeroButton_clicked()
 
 void MainWindow::btnSigleOperandClicked()
 {
-    if(this->Edit != "")
+    if(ui->lineEdit->text() != "")
     {
-        double result = this->Edit.toDouble();
+        double result = ui->lineEdit->text().toDouble();
         QString fuhao = qobject_cast<QPushButton *>(sender())->text();
         if(fuhao == "%"){
             result /= 100.0;
@@ -221,10 +241,27 @@ void MainWindow::on_equalButton_clicked()
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
     int key = event->key();
+
+    // 处理数字按钮
     if (btnNums.contains(key))
     {
         QPushButton* button = btnNums[key];
-        button->animateClick();  // 模拟按钮点击
-        //ui->lineEdit->insert(button->text());  // 更新 lineEdit 内容
+        if (button)
+        {
+            button->animateClick();  // 模拟按钮点击
+        }
+    }
+
+    if (event->key() == Qt::Key_Plus) {
+        ui->plusButton->animateClick();
+    } else if (event->key() == Qt::Key_Minus) {
+        ui->minusButton->animateClick();
+    } else if (event->key() == Qt::Key_Asterisk) {
+        ui->mutiplyButton->animateClick();
+    } else if (event->key() == Qt::Key_Slash) {
+        ui->divideButton->animateClick();
+    } else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+        ui->equalButton->animateClick();
     }
 }
+

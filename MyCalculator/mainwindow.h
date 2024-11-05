@@ -31,7 +31,6 @@ private slots:
     void btnOperandClicked();
 
     void btnSigleOperandClicked();
-    void keyPressEvent(QKeyEvent* event);
 
     void on_delButton_clicked();
 
@@ -39,7 +38,6 @@ private slots:
 
     void on_CeButton_clicked();
 
-    void on_modeButton_clicked();
 
     void on_dotButton_clicked();
 
@@ -49,12 +47,16 @@ private slots:
 
     void on_equalButton_clicked();
 
+    virtual void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::MainWindow *ui;
     QString Edit;
     QStack<QString> operands_;
     QStack<QString> opercodes_;
     QMap<int,QPushButton*> btnNums;
+    QMap<int,QPushButton*> btnOps;
+
 
 };
 #endif // MAINWINDOW_H
