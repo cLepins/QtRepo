@@ -12,7 +12,12 @@
         <file>style/new2.bmp</file>
         <file>style/open3.bmp</file>
         <file>style/paste.bmp</file>
-        <file>style/UNDRLN.BMP</file>
-        <file>style/WORDUNDR.BMP</file>
+        <file>style/Align-Object-Bottom--Streamline-Core.png</file>
+        <file>style/Auto-Save-Backup--Streamline-Core.png</file>
+        <file>style/Rotate-Left-Dash-1--Streamline-Core.png</file>
+        <file>style/Rotate-Right-Dash-1--Streamline-Core.png</file>
+        <file>style/steam.jpg</file>
+        <file>style/find.jpg</file>
+        <file>style/replace.jpg</file>
     </qresource>
 </RCC>

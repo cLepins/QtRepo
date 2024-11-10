@@ -17,10 +17,30 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+private:
+    bool userEditConfirmed();
+private slots:
+
+    void on_actionAbout_triggered();
+
+    void on_actionFind_triggered();
+
+    void on_actionReplace_triggered();
+
+    void on_actionSaveAs_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionNew_triggered();
+
+    void on_actionOpen_triggered();
+
+    void on_TextEdit_textChanged();
 
 private:
     Ui::MainWindow *ui;
-
+    bool EditChanged;
+    QString FILEPATH;
     QLabel statusLabel;
     QLabel statusCursorLabel;
 };

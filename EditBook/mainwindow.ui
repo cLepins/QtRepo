@@ -90,14 +90,21 @@
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionExit"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionSaveAs"/>
    <addaction name="separator"/>
    <addaction name="actionCut"/>
+   <addaction name="actionleftBack"/>
+   <addaction name="actionrightBack"/>
    <addaction name="actionCopy"/>
    <addaction name="actionPaste"/>
+   <addaction name="separator"/>
    <addaction name="actionBo"/>
    <addaction name="actiontltalic"/>
    <addaction name="actionUnder"/>
    <addaction name="actionAbout"/>
+   <addaction name="actionFind"/>
+   <addaction name="actionReplace"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -210,7 +217,7 @@
   <action name="actionUnder">
    <property name="icon">
     <iconset resource="sources.qrc">
-     <normaloff>:/style/UNDRLN.BMP</normaloff>:/style/UNDRLN.BMP</iconset>
+     <normaloff>:/style/DBLUNDR.BMP</normaloff>:/style/DBLUNDR.BMP</iconset>
    </property>
    <property name="text">
     <string>下划线</string>
@@ -226,6 +233,87 @@
    </property>
    <property name="text">
     <string>about</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionleftBack">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/Rotate-Left-Dash-1--Streamline-Core.png</normaloff>:/style/Rotate-Left-Dash-1--Streamline-Core.png</iconset>
+   </property>
+   <property name="text">
+    <string>leftBack</string>
+   </property>
+   <property name="toolTip">
+    <string>左退回</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionrightBack">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/Rotate-Right-Dash-1--Streamline-Core.png</normaloff>:/style/Rotate-Right-Dash-1--Streamline-Core.png</iconset>
+   </property>
+   <property name="text">
+    <string>rightBack</string>
+   </property>
+   <property name="toolTip">
+    <string>右退回</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSaveAs">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/Auto-Save-Backup--Streamline-Core.png</normaloff>:/style/Auto-Save-Backup--Streamline-Core.png</iconset>
+   </property>
+   <property name="text">
+    <string>另存为</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/Align-Object-Bottom--Streamline-Core.png</normaloff>:/style/Align-Object-Bottom--Streamline-Core.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+   <property name="toolTip">
+    <string>保存</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/find.jpg</normaloff>:/style/find.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Find</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionReplace">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/replace.jpg</normaloff>:/style/replace.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Replace</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
