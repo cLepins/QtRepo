@@ -19,5 +19,9 @@
         <file>style/steam.jpg</file>
         <file>style/find.jpg</file>
         <file>style/replace.jpg</file>
+        <file>style/font.jpg</file>
+        <file>style/tool.jpg</file>
+        <file>style/status.jpg</file>
+        <file>style/selectAll.jpg</file>
     </qresource>
 </RCC>

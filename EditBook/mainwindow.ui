@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>805</width>
-    <height>568</height>
+    <width>990</width>
+    <height>643</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>805</width>
+     <width>990</width>
      <height>24</height>
     </rect>
    </property>
@@ -49,6 +49,10 @@
      <string>文件(&amp;F)</string>
     </property>
     <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionExit"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
    </widget>
    <widget class="QMenu" name="menu_E">
     <property name="title">
@@ -59,11 +63,17 @@
     <property name="title">
      <string>格式</string>
     </property>
+    <addaction name="actionFontColor"/>
+    <addaction name="actionFontBackgroundColor"/>
+    <addaction name="actionBackgroundColor"/>
+    <addaction name="actionLineWrap"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
      <string>查看</string>
     </property>
+    <addaction name="actionShowToolbar"/>
+    <addaction name="actionStatusbar"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -99,12 +109,18 @@
    <addaction name="actionCopy"/>
    <addaction name="actionPaste"/>
    <addaction name="separator"/>
+   <addaction name="actionFont"/>
    <addaction name="actionBo"/>
    <addaction name="actiontltalic"/>
    <addaction name="actionUnder"/>
+   <addaction name="actionSelectAll"/>
+   <addaction name="separator"/>
    <addaction name="actionAbout"/>
    <addaction name="actionFind"/>
    <addaction name="actionReplace"/>
+   <addaction name="separator"/>
+   <addaction name="actionShowToolbar"/>
+   <addaction name="actionStatusbar"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -314,6 +330,71 @@
    </property>
    <property name="text">
     <string>Replace</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFontColor">
+   <property name="text">
+    <string>字体颜色</string>
+   </property>
+  </action>
+  <action name="actionFontBackgroundColor">
+   <property name="text">
+    <string>字体背景颜色</string>
+   </property>
+  </action>
+  <action name="actionBackgroundColor">
+   <property name="text">
+    <string>背景颜色</string>
+   </property>
+  </action>
+  <action name="actionFont">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/font.jpg</normaloff>:/style/font.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>字体(&amp;F)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionLineWrap">
+   <property name="text">
+    <string>换行</string>
+   </property>
+  </action>
+  <action name="actionShowToolbar">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/tool.jpg</normaloff>:/style/tool.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>工具栏</string>
+   </property>
+  </action>
+  <action name="actionStatusbar">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/status.jpg</normaloff>:/style/status.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>状态栏</string>
+   </property>
+  </action>
+  <action name="actionSelectAll">
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/selectAll.jpg</normaloff>:/style/selectAll.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>全选</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
