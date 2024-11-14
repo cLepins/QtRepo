@@ -41,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionStatusbar->setEnabled(true);
     ui->actionShowToolbar->setEnabled(true);
+    //ui->actionShowLine->setEnabled(false);
+    //on_actionShowLine_triggered(false);
+   // connect(ui->actionShowLine,SIGNAL(triggered(bool)),ui->TextEdit,SLOT(hideLineNumberArea(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -367,5 +370,11 @@ void MainWindow::on_TextEdit_cursorPositionChanged()
     col = pos - flg;
     statusCursorLabel.setText("Ln: " + QString::number(ln+1) + " Col:" + QString::number(
                                   col + 1));
+}
+
+
+void MainWindow::on_actionShowLine_triggered(bool checked)
+{
+    ui->TextEdit->hideLineNumberArea(checked);
 }
 

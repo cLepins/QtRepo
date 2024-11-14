@@ -23,5 +23,6 @@
         <file>style/tool.jpg</file>
         <file>style/status.jpg</file>
         <file>style/selectAll.jpg</file>
+        <file>style/line.jpg</file>
     </qresource>
 </RCC>

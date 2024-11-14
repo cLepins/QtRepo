@@ -31,7 +31,7 @@
      <number>1</number>
     </property>
     <item>
-     <widget class="QPlainTextEdit" name="TextEdit"/>
+     <widget class="CodeEditor" name="TextEdit"/>
     </item>
    </layout>
   </widget>
@@ -116,6 +116,7 @@
    <addaction name="actionSelectAll"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
+   <addaction name="actionShowLine"/>
    <addaction name="actionFind"/>
    <addaction name="actionReplace"/>
    <addaction name="separator"/>
@@ -400,7 +401,29 @@
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
+  <action name="actionShowLine">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="sources.qrc">
+     <normaloff>:/style/line.jpg</normaloff>:/style/line.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>ShowLine</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CodeEditor</class>
+   <extends>QPlainTextEdit</extends>
+   <header location="global">codeeditor.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="sources.qrc"/>
  </resources>
