@@ -378,3 +378,9 @@ void MainWindow::on_actionShowLine_triggered(bool checked)
     ui->TextEdit->hideLineNumberArea(checked);
 }
 
+
+void MainWindow::on_actionBo_triggered()
+{
+
+}
+

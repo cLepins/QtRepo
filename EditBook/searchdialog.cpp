@@ -19,7 +19,7 @@ SearchDialog::~SearchDialog()
 
 void SearchDialog::on_btnFindNext_clicked()
 {
-    QString target = ui->lineEdit->text();
+    QString target = ui->searchText->text();
     QString text = pTextEdit->toPlainText();
     QTextCursor c = pTextEdit->textCursor();
 

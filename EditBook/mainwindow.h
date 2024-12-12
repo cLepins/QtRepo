@@ -75,6 +75,8 @@ private slots:
 
     void on_actionShowLine_triggered(bool checked);
 
+    void on_actionBo_triggered();
+
 private:
     Ui::MainWindow *ui;
     bool EditChanged;
