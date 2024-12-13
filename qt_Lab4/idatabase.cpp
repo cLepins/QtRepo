@@ -4,7 +4,7 @@
 void IDatabase::ininDatabase()
 {
     database = QSqlDatabase::addDatabase("QSQLITE");
-    QString aFile = "D:\\myQtCode\\lab4a.db";
+    QString aFile = "E:\\Qtdata\\lab4a.db";
     database.setDatabaseName(aFile);
 
     if(!database.open()){
