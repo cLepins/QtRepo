@@ -38,7 +38,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "MainWindow",
     "on_startStopButton_clicked",
     "",
-    "logMessages",
+    "logMessage",
     "msg"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
@@ -81,7 +81,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
         // method 'on_startStopButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'logMessages'
+        // method 'logMessage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>
     >,
@@ -95,7 +95,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         (void)_t;
         switch (_id) {
         case 0: _t->on_startStopButton_clicked(); break;
-        case 1: _t->logMessages((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 1: _t->logMessage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     }

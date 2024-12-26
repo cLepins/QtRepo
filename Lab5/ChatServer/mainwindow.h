@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QString>
+#include "chatserver.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,9 +21,10 @@ public:
 
 private slots:
     void on_startStopButton_clicked();
-    void logMessages(const QString &msg);
+    void logMessage(const QString &msg);
 
 private:
     Ui::MainWindow *ui;
+    ChatServer* m_chatServer;
 };
 #endif // MAINWINDOW_H
