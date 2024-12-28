@@ -11,7 +11,7 @@ public:
     explicit ChatClient(QObject *parent = nullptr);
 
 signals:
-    void conneted();
+    void connected();
     void messageRecieved(const QString& text);
 
 private:

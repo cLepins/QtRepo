@@ -2,11 +2,17 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDataStream>
+#include <QDebug>
 
 
 ChatClient::ChatClient(QObject *parent)
     : QObject{parent}
-{}
+{
+    m_clientSocket = new QTcpSocket(this);
+    connect(m_clientSocket,&QTcpSocket::connected,this,&ChatClient::connected);
+    connect(m_clientSocket,&QTcpSocket::readyRead,this,&ChatClient::onReadyRead);
+
+}
 
 void ChatClient::onReadyRead()
 {
@@ -16,11 +22,13 @@ void ChatClient::onReadyRead()
     for(;;)
     {
         socketStream.startTransaction();
-        socketStream>>jsonData;
+        socketStream >> jsonData;
         if(socketStream.commitTransaction()){
             emit messageRecieved(QString::fromUtf8(jsonData));
-            sendMessage("I recieved message");
+            // sendMessage("I recieved message");
+
         }else {
+
             break;
         }
     }
@@ -35,7 +43,6 @@ void ChatClient::sendMessage(const QString &text, const QString &type)
         serverStream.setVersion(QDataStream::Qt_5_12);
 
         QJsonObject message;
-
         message["type"] = type;
         message["text"] = text;
         serverStream << QJsonDocument(message).toJson();
