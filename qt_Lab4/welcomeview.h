@@ -12,7 +12,8 @@ class WelcomeView : public QWidget
     Q_OBJECT
 
 public:
-    explicit WelcomeView(QWidget *parent = nullptr);
+    //增加管理员判断
+    explicit WelcomeView(bool isAdmin,QWidget *parent = nullptr);
     ~WelcomeView();
 
 private slots:

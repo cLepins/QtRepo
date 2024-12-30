@@ -25,11 +25,11 @@ void MasterView::goLoginView()
 {
     qDebug()<<"goLoginView";
     loginView = new LoginView(this);
+
     pushWidgetToStackView(loginView);
 
-
     //登录成功则进入欢迎界面
-    connect(loginView,SIGNAL(loginSuccess()),this, SLOT(goWelcomeView()));
+    //connect(loginView,SIGNAL(loginSuccess()),this, SLOT(goWelcomeView()));
     connect(loginView, &LoginView::goToWelcomeView, this, &MasterView::goWelcomeView);
 }
 

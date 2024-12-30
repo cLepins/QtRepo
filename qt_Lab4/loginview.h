@@ -21,6 +21,7 @@ private slots:
 signals:
     void loginSuccess();
     void loginFailed();
+    void goToWelcomeView(bool isAdmin);//当符合权限时发送信号
 
 private:
     Ui::LoginView *ui;

@@ -115,10 +115,8 @@ QString IDatabase::userLogin(QString userName, QString password) {
 
             // 返回不同权限的登录结果
             if (role == 0) {
-                qDebug()<<"i am cleo";
                 return "loginOK:normal"; // 普通医生
             } else if (role == 1) {
-                qDebug()<<"i am admin";
                 return "loginOK:admin"; // 管理员医生
             } else {
                 return "unknownRole"; // 未知角色
