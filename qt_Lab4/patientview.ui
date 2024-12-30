@@ -13,8 +13,8 @@
   <property name="windowTitle">
    <string>患者管理</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLineEdit" name="txtSearch">
@@ -24,24 +24,32 @@
       </widget>
      </item>
      <item>
+      <widget class="QComboBox" name="comboBox">
+       <item>
+        <property name="text">
+         <string>CREATEDTIMESTAMP </string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>AGE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btSearch">
        <property name="text">
         <string>查找</string>
        </property>
        <property name="icon">
-        <iconset resource="lab4.qrc">
+        <iconset>
          <normaloff>:/img/查找.png</normaloff>:/img/查找.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btAdd">
-       <property name="text">
-        <string>添加</string>
-       </property>
-       <property name="icon">
-        <iconset resource="lab4.qrc">
-         <normaloff>:/img/添加.png</normaloff>:/img/添加.png</iconset>
        </property>
       </widget>
      </item>
@@ -51,7 +59,7 @@
         <string>删除</string>
        </property>
        <property name="icon">
-        <iconset resource="lab4.qrc">
+        <iconset>
          <normaloff>:/img/删除.png</normaloff>:/img/删除.png</iconset>
        </property>
       </widget>
@@ -62,20 +70,29 @@
         <string>修改</string>
        </property>
        <property name="icon">
-        <iconset resource="lab4.qrc">
+        <iconset>
          <normaloff>:/img/修改.png</normaloff>:/img/修改.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btAdd">
+       <property name="text">
+        <string>添加</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/img/添加.png</normaloff>:/img/添加.png</iconset>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item>
+   <item row="1" column="0">
     <widget class="QTableView" name="tableView"/>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="lab4.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

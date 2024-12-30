@@ -80,7 +80,8 @@ void MasterView::goPatientEditView(int rowNo)
     qDebug()<<"goPatientEditView";
     patientEditView = new PatientEditView(this,rowNo);
     pushWidgetToStackView(patientEditView);
-
+    //把编辑页面的返回前页面信号和master里面的返回前页面函数关联起来
+    //这个信号将在patientEditView里面发送，master作为收到信号的主体，收到信号就执行这个函数
     connect(patientEditView,SIGNAL(goPreviousView()),this, SLOT(goPreviousView()));
 }
 
@@ -89,7 +90,7 @@ void MasterView::goPatientView()
     qDebug()<<"goPatientView";
     patientView = new PatientView(this);
     pushWidgetToStackView(patientView);
-
+    //关联两个信号，在PatientView 里面发送信号，一旦发送，则调用goPatientEditView这个函数
     connect(patientView,SIGNAL(goPatientEditView(int)),this, SLOT(goPatientEditView(int)));
 }
 

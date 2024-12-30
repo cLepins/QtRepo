@@ -24,6 +24,8 @@ private slots:
 
     void on_btEdit_clicked();
 
+    void on_comboBox_activated(int index);
+
 signals:
     void goPatientEditView(int idx);
 

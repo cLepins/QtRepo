@@ -21,30 +21,72 @@ void IDatabase::ininDatabase()
 bool IDatabase::initPatientModel()
 {
     patientTabModel = new QSqlTableModel(this,database);
-    patientTabModel->setTable("patient");
+    patientTabModel->setTable("Patient");
+    // patientTabModel->setTable("patient");
     patientTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     patientTabModel->setSort(patientTabModel->fieldIndex("name"),Qt::AscendingOrder);
-        if(!(patientTabModel->select()))
-            return false;
-
+    if(!(patientTabModel->select()))
+    {
+        qDebug()<<"select false";
+        return false;
+    }
     thePatientSelection = new QItemSelectionModel(patientTabModel);
         return true;
+
+        //
+    //patientTabModel->setPrimaryKey(QSqlIndex("ID")); // 设置主键（如适用）
+    //patientTabModel->select();
+
 }
+
+// int IDatabase::addNewPatient()
+// {
+//     patientTabModel->insertRow(patientTabModel->rowCount(),QModelIndex());
+//     QModelIndex curIndex = patientTabModel->index(patientTabModel->rowCount() - 1,1);
+
+//     int curRecNo = curIndex.row();
+//     QSqlRecord curRec = patientTabModel->record(curRecNo);
+
+//     QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+//     QString newId = uuid.mid(0, 16); // 截取前 16 个字符
+//     qDebug() << "Shortened ID:" << newId;
+
+//     curRec.setValue("CREATEDTIMESTAMP",QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+//     curRec.setValue("ID",newId);
+
+//     if (!patientTabModel->setRecord(curRecNo, curRec)) {
+//         qDebug() << "Failed to set record to model.";
+//         return -1;
+//     }
+
+
+//      qDebug() << "New ID:" << newId; // 调试输出
+
+//     return curIndex.row();
+// }
 
 int IDatabase::addNewPatient()
 {
-    patientTabModel->insertRow(patientTabModel->rowCount(),QModelIndex());
-    QModelIndex curIndex = patientTabModel->index(patientTabModel->rowCount() - 1,1);
+    // 插入新行
+    int newRow = patientTabModel->rowCount();
+    patientTabModel->insertRow(newRow);
 
-    int curRecNo = curIndex.row();
-    QSqlRecord curRec = patientTabModel->record(curRecNo);
-    curRec.setValue("CREATEDTIMESTAMP",QDateTime::currentDateTime().toString("yyyy-MM-dd"));
-    curRec.setValue("ID",QUuid::createUuid().toString(QUuid::WithoutBraces));
+    // 设置默认值
+    QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    patientTabModel->setData(patientTabModel->index(newRow, patientTabModel->fieldIndex("ID")), uuid); // 设置 ID
+    patientTabModel->setData(patientTabModel->index(newRow, patientTabModel->fieldIndex("CREATEDTIMESTAMP")), QDateTime::currentDateTime().toString("yyyy-MM-dd")); // 设置时间戳
 
-    patientTabModel->setRecord(curRecNo,curRec);
+    // 提交模型更改
+    // if (!patientTabModel->submitAll()) {
+    //     qDebug() << "Submit failed:" << patientTabModel->lastError().text();
+    //     return -1; // 插入失败
+    // }
 
-    return curIndex.row();
+    qDebug() << "New Patient ID:" << uuid;
+    return newRow;
 }
+
+
 
 bool IDatabase::searchPatient(QString filter)
 {
@@ -61,10 +103,42 @@ bool IDatabase::deleteCurrentPatient()
 
 }
 
+// bool IDatabase::submitPatientEdit()
+// {
+//     QSqlRecord curRec = patientTabModel->record(patientTabModel->rowCount() - 1);
+//     qDebug() << "ID before submit:" << curRec.value("ID").toString();
+
+//     if (!patientTabModel->submitAll()) {
+//         qDebug() << "Submit failed: " << patientTabModel->lastError().text();
+//         return -1; // 返回错误码，表示插入失败
+//     }
+//     return 1;
+// }
+
 bool IDatabase::submitPatientEdit()
 {
-    return patientTabModel->submitAll();
+    QSqlDatabase db = QSqlDatabase::database();
+
+    //可删
+    if (!db.transaction()) {
+        qDebug() << "1.Failed to start transaction:" << db.lastError().text();
+        return false;
+    }
+
+    if (!patientTabModel->submitAll()) {
+        qDebug() << "2.Submit failed: " << patientTabModel->lastError().text();
+        db.rollback(); // 回滚事务
+        return false;
+    }
+
+    if (!db.commit()) {
+        qDebug() << "3.Commit failed:" << db.lastError().text();
+        return false;
+    }
+
+    return true;
 }
+
 
 void IDatabase::revertPatientEdit()
 {
@@ -140,3 +214,89 @@ IDatabase::IDatabase(QObject *parent)
     ininDatabase();
 
 }
+
+
+//排序
+// void IDatabase::sortPatientList(const QString &fieldName, bool ascending)
+// {
+//     Qt::SortOrder order = ascending ? Qt::AscendingOrder : Qt::DescendingOrder;
+//     patientTabModel->setSort(patientTabModel->fieldIndex(fieldName), order);
+
+//     // 提交排序
+//     if (!patientTabModel->select()) {
+//         qDebug() << "Failed to sort by field:" << fieldName
+//                  << "Error:" << patientTabModel->lastError().text();
+//     }
+// }
+
+void debugPatientModelContent(QSqlTableModel *model) {
+    for (int row = 0; row < model->rowCount(); ++row) {
+        QString rowContent;
+        for (int col = 0; col < model->columnCount(); ++col) {
+            rowContent += model->data(model->index(row, col)).toString() + " ";
+        }
+        qDebug() << "Row" << row << ":" << rowContent;
+    }
+}
+
+// bool IDatabase::sortPatientList(const QString &fieldName, bool ascending)
+// {
+//     if (!patientTabModel) {
+//         qDebug() << "Patient model not initialized!";
+//         return false;
+//     }
+
+//     int fieldIndex = patientTabModel->fieldIndex(fieldName);
+//     if (fieldIndex == -1) {
+//         qDebug() << "Invalid field name:" << fieldName;
+//         return false;
+//     }
+
+//     patientTabModel->setSort(fieldIndex, ascending ? Qt::AscendingOrder : Qt::DescendingOrder);
+//     if (!patientTabModel->select()) {
+//         qDebug() << "Error in select():" << patientTabModel->lastError().text();
+//         return false;
+//     }
+
+//     qDebug() << "Patient model sorted by:" << fieldName;
+//     for (int i = 0; i < patientTabModel->rowCount(); ++i) {
+//         qDebug() << patientTabModel->data(patientTabModel->index(i, fieldIndex)).toString();
+//     }
+
+//     return true;
+// }
+
+
+bool IDatabase::sortPatientList(const QString &sortField, bool ascending)
+{
+    QSqlTableModel *model = patientTabModel;
+
+    // 根据排序字段选择对应的数据库列
+    QString orderByField;
+    if (sortField == "CREATEDTIMESTAMP") {
+        orderByField = "CREATEDTIMESTAMP"; // 按挂号时间排序
+    } else if (sortField == "AGE") {
+        orderByField = "AGE"; // 按年龄排序
+    } else {
+        qDebug() << "Invalid sort field:" << sortField;
+        return false;
+    }
+
+    // 设置排序的顺序（升序或降序）
+    QString order = ascending ? "ASC" : "DESC";
+
+    // 更新模型的查询，添加ORDER BY子句
+    model->setFilter(""); // 清除当前的过滤条件
+    model->setSort(model->fieldIndex(orderByField), ascending ? Qt::AscendingOrder : Qt::DescendingOrder);
+    model->select(); // 重新执行查询，加载排序后的数据
+    // qDebug() << "Patient model sorted by:" << sortField;
+    // for (int i = 0; i < patientTabModel->rowCount(); ++i) {
+    //     qDebug() << patientTabModel->data(patientTabModel->index(i, patientTabModel->fieldIndex(sortField))).toString();
+    // }
+    return true;
+}
+
+
+
+
+

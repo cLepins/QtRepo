@@ -13,8 +13,8 @@
   <property name="windowTitle">
    <string>编辑患者信息</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -30,28 +30,17 @@
      </property>
     </spacer>
    </item>
-   <item>
+   <item row="0" column="1">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>身高:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>体重:</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>ID:</string>
        </property>
       </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="dbEditID"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -60,15 +49,25 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_8">
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="dbEditName"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>手机号:</string>
+        <string>身份证:</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="dbEditMobile"/>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="dbEditIDCard"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>性别:</string>
+       </property>
+      </widget>
      </item>
      <item row="3" column="1">
       <widget class="QComboBox" name="dbComboSex">
@@ -89,9 +88,6 @@
        </item>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="dbEditName"/>
-     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
@@ -99,18 +95,15 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
+     <item row="4" column="1">
+      <widget class="QDateEdit" name="dbDateEditDOB"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>性别:</string>
+        <string>身高:</string>
        </property>
       </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QSpinBox" name="dbSpinWeight"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="dbEditIDCard"/>
      </item>
      <item row="5" column="1">
       <widget class="QSpinBox" name="dbSpinHeight">
@@ -119,18 +112,25 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="dbEditID"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>身份证:</string>
+        <string>体重:</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QDateEdit" name="dbDateEditDOB"/>
+     <item row="6" column="1">
+      <widget class="QSpinBox" name="dbSpinWeight"/>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>手机号:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLineEdit" name="dbEditMobile"/>
      </item>
      <item row="8" column="0">
       <widget class="QLabel" name="label_9">
@@ -142,9 +142,19 @@
      <item row="8" column="1">
       <widget class="QLineEdit" name="dbCreatedTimeStamp"/>
      </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>年龄：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QLineEdit" name="dbEditAge"/>
+     </item>
     </layout>
    </item>
-   <item>
+   <item row="0" column="2">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <spacer name="verticalSpacer">
@@ -175,7 +185,7 @@
      </item>
     </layout>
    </item>
-   <item>
+   <item row="0" column="3">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>

@@ -35,14 +35,14 @@ private:
 signals:
 
 public:
-
+    bool sortPatientList(const QString &sortField, bool ascending);
     bool initPatientModel();
     int addNewPatient();    
     bool searchPatient(QString filter);  
     bool deleteCurrentPatient();
     bool submitPatientEdit();
     void revertPatientEdit();
-
+    // int calculateAge(const QString &dob);
 
     QSqlTableModel *patientTabModel;
     QItemSelectionModel *thePatientSelection;
