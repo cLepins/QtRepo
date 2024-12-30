@@ -4,10 +4,11 @@
 #include <QWidget>
 #include "loginview.h"
 #include "doctorview.h"
-#include "departmentview.h"
+#include "recordview.h"
 #include "patienteditview.h"
 #include "patientview.h"
 #include "welcomeview.h"
+#include "medicineview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,9 +25,10 @@ public:
     ~MasterView();
 public slots:
     void goLoginView();
-    void goWelcomeView();
+    void goWelcomeView(bool isAdmin);
     void goDoctorView();
-    void goDepartmentView();
+    // void goDepartmentView();
+    void goMedicineView();
     void goPatientEditView(int rowNo);
     void goPatientView();
     void goPreviousView();
@@ -46,7 +48,9 @@ private:
     WelcomeView *welcomeView;
     DoctorView *doctorView;
     PatientView *patientView;
-    DepartmentView *departmentView;
+    RecordView *recordView;
+    MedicineView *medicineView;
+    //DepartmentView *departmentView;
     LoginView *loginView;
     PatientEditView *patientEditView;
 };

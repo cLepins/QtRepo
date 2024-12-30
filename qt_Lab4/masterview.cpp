@@ -27,19 +27,37 @@ void MasterView::goLoginView()
     loginView = new LoginView(this);
     pushWidgetToStackView(loginView);
 
+
+    //登录成功则进入欢迎界面
     connect(loginView,SIGNAL(loginSuccess()),this, SLOT(goWelcomeView()));
+    connect(loginView, &LoginView::goToWelcomeView, this, &MasterView::goWelcomeView);
 }
 
-void MasterView::goWelcomeView()
-{
+// void MasterView::goWelcomeView()
+// {
+//     qDebug()<<"goWelcomeView";
+//     welcomeView = new WelcomeView(this);
+//     pushWidgetToStackView(welcomeView);
+
+//     connect(welcomeView,SIGNAL(goDoctorView()),this, SLOT(goDoctorView()));
+//     connect(welcomeView,SIGNAL(goPatientView()),this, SLOT(goPatientView()));
+//     //connect(welcomeView,SIGNAL(goDepartmentView()),this, SLOT(goDepartmentView()));
+//     connect(welcomeView,SIGNAL(goMedicineView()),this,SLOT(goMedicineView()));
+// }
+
+
+void MasterView::goWelcomeView(bool isAdmin) {
+    welcomeView = new WelcomeView(isAdmin, this);
+    // pushWidgetToStackView(welcomeView);
     qDebug()<<"goWelcomeView";
-    welcomeView = new WelcomeView(this);
     pushWidgetToStackView(welcomeView);
 
     connect(welcomeView,SIGNAL(goDoctorView()),this, SLOT(goDoctorView()));
     connect(welcomeView,SIGNAL(goPatientView()),this, SLOT(goPatientView()));
-    connect(welcomeView,SIGNAL(goDepartmentView()),this, SLOT(goDepartmentView()));
+    //connect(welcomeView,SIGNAL(goDepartmentView()),this, SLOT(goDepartmentView()));
+    connect(welcomeView,SIGNAL(goMedicineView()),this,SLOT(goMedicineView()));
 }
+
 
 void MasterView::goDoctorView()
 {
@@ -48,12 +66,14 @@ void MasterView::goDoctorView()
     pushWidgetToStackView(doctorView);
 }
 
-void MasterView::goDepartmentView()
+void MasterView::goMedicineView()
 {
-    qDebug()<<"goDepartmentView";
-    departmentView = new DepartmentView(this);
-    pushWidgetToStackView(departmentView);
+    qDebug()<<"goMedicineView";
+    medicineView = new MedicineView(this);
+    pushWidgetToStackView(medicineView);
 }
+
+
 
 void MasterView::goPatientEditView(int rowNo)
 {

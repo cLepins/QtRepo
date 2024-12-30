@@ -9,33 +9,36 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    departmentview.cpp \
     doctorview.cpp \
     idatabase.cpp \
     loginview.cpp \
     main.cpp \
     masterview.cpp \
+    medicineview.cpp \
     patienteditview.cpp \
     patientview.cpp \
+    recordview.cpp \
     welcomeview.cpp
 
 HEADERS += \
-    departmentview.h \
     doctorview.h \
     idatabase.h \
     loginview.h \
     masterview.h \
+    medicineview.h \
     patienteditview.h \
     patientview.h \
+    recordview.h \
     welcomeview.h
 
 FORMS += \
-    departmentview.ui \
     doctorview.ui \
     loginview.ui \
     masterview.ui \
+    medicineview.ui \
     patienteditview.ui \
     patientview.ui \
+    recordview.ui \
     welcomeview.ui
 
 # Default rules for deployment.

@@ -11,6 +11,7 @@ class IDatabase : public QObject
     Q_OBJECT
 public:
 
+    //返回这个类，本质是在单例模式下，调用下面的IDatabase构造函数，然后构造函数里面有initDatabase
     static IDatabase& getInstance()
     {
         static IDatabase    instance; // Guaranteed to be destroyed.
@@ -18,7 +19,10 @@ public:
         return instance;
     }
 
+    //用户登录
     QString userLogin(QString userName ,QString password);
+
+
 private:
     explicit IDatabase(QObject *parent = nullptr);
     IDatabase(IDatabase const&)               = delete;
@@ -33,11 +37,12 @@ signals:
 public:
 
     bool initPatientModel();
-    int addNewPatient();
-    bool searchPatient(QString filter);
+    int addNewPatient();    
+    bool searchPatient(QString filter);  
     bool deleteCurrentPatient();
     bool submitPatientEdit();
     void revertPatientEdit();
+
 
     QSqlTableModel *patientTabModel;
     QItemSelectionModel *thePatientSelection;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DepartmentView</class>
- <widget class="QWidget" name="DepartmentView">
+ <class>RecordView</class>
+ <widget class="QDialog" name="RecordView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>科室管理</string>
+   <string>Dialog</string>
   </property>
  </widget>
  <resources/>
