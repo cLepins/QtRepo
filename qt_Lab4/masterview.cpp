@@ -56,15 +56,17 @@ void MasterView::goWelcomeView(bool isAdmin) {
     connect(welcomeView,SIGNAL(goPatientView()),this, SLOT(goPatientView()));
     //connect(welcomeView,SIGNAL(goDepartmentView()),this, SLOT(goDepartmentView()));
     connect(welcomeView,SIGNAL(goMedicineView()),this,SLOT(goMedicineView()));
+    connect(welcomeView,SIGNAL(goRecordView()),this,SLOT(goRecordView()));
 }
 
 
-void MasterView::goDoctorView()
+void MasterView::goRecordView()
 {
     qDebug()<<"goDoctorView";
-    doctorView = new DoctorView(this);
-    pushWidgetToStackView(doctorView);
+    recordView = new RecordView(this);
+    pushWidgetToStackView(recordView);
 }
+
 
 void MasterView::goMedicineView()
 {
@@ -85,6 +87,16 @@ void MasterView::goPatientEditView(int rowNo)
     connect(patientEditView,SIGNAL(goPreviousView()),this, SLOT(goPreviousView()));
 }
 
+void MasterView::goDoctorEditView(int rowNo)
+{
+    qDebug()<<"goPatientEditView";
+    doctorEditView = new DoctorEditView(this,rowNo);
+    pushWidgetToStackView(doctorEditView);
+    //同上
+    connect(doctorEditView,SIGNAL(goPreviousView()),this, SLOT(goPreviousView()));
+}
+
+
 void MasterView::goPatientView()
 {
     qDebug()<<"goPatientView";
@@ -93,6 +105,16 @@ void MasterView::goPatientView()
     //关联两个信号，在PatientView 里面发送信号，一旦发送，则调用goPatientEditView这个函数
     connect(patientView,SIGNAL(goPatientEditView(int)),this, SLOT(goPatientEditView(int)));
 }
+
+
+void MasterView::goDoctorView()
+{
+    qDebug()<<"goDoctorView";
+    doctorView = new DoctorView(this);
+    pushWidgetToStackView(doctorView);
+    connect(doctorView,SIGNAL(goDoctorEditView(int)),this,SLOT(goDoctorEditView(int)));
+}
+
 
 void MasterView::goPreviousView()
 {

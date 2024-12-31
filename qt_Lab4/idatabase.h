@@ -30,22 +30,41 @@ private:
 
     QSqlDatabase database;
 
+
     void ininDatabase();
 
 signals:
 
 public:
+    //病人
     bool sortPatientList(const QString &sortField, bool ascending);
     bool initPatientModel();
+
     int addNewPatient();    
     bool searchPatient(QString filter);  
-    bool deleteCurrentPatient();
+    void deleteCurrentPatient();
     bool submitPatientEdit();
     void revertPatientEdit();
-    // int calculateAge(const QString &dob);
 
+    //医生
+    bool sortDoctorList(const QString &sortField,bool ascending);
+    bool initDoctorModel();
+    void revertDoctorEdit();
+    // int calculateAge(const QString &dob);
+    int addNewDoctor();
+    bool submitDoctorEdit();
+    bool searchDoctor(QString filter);
+    void deleteCurrentDoctor();
+    QSqlDatabase& getDatabase() {
+        return database; // `database` 是 IDatabase 类的成员变量，类型为 QSqlDatabase
+    }
+
+    bool importDoctorData(const QString &fileName);
     QSqlTableModel *patientTabModel;
+    QSqlTableModel *doctorTabModel;
     QItemSelectionModel *thePatientSelection;
+    QItemSelectionModel *theDoctorSelection;
+
 
 };
 

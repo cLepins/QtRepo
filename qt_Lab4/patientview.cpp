@@ -9,7 +9,6 @@ PatientView::PatientView(QWidget *parent)
 {
     ui->setupUi(this);
 
-    qDebug()<<"is the show function? ";
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -78,25 +77,9 @@ void PatientView::on_comboBox_activated(int index)
     }
     if (IDatabase::getInstance().sortPatientList(sortField, true)) {
         IDatabase &iDatabase = IDatabase::getInstance();
-        /*
-        QSqlTableModel * Mymodel = iDatabase.patientTabModel;
-        qDebug() << "NN i love you Patient model sorted by:" << sortField;
-        for (int i = 0; i < Mymodel->rowCount(); ++i) {
-            qDebug() << Mymodel->data(Mymodel->index(i, Mymodel->fieldIndex(sortField))).toString();
-        }*/
-        //上面这一段代表模型是修改好的
+
         ui->tableView->setModel(iDatabase.patientTabModel);
         ui->tableView->reset();
-        // ui->tableView->setSelectionModel(iDatabase.thePatientSelection);
-        // if (iDatabase.initPatientModel()) {
-        //     qDebug()<<"can i";
-        //     ui->tableView->setModel(iDatabase.patientTabModel);
-        //     ui->tableView->setSelectionModel(iDatabase.thePatientSelection);
-        //     ui->tableView->reset(); // 刷新视图
-
-        //     qDebug() << "Current model row count:" << ui->tableView->model()->rowCount();
-        // }
-
     } else {
         qDebug() << "Sorting failed!";
     }
