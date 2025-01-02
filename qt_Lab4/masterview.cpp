@@ -60,11 +60,26 @@ void MasterView::goWelcomeView(bool isAdmin) {
 }
 
 
-void MasterView::goRecordView()
+
+
+void MasterView::goMedicineEditView(int rowNo)
 {
-    qDebug()<<"goDoctorView";
-    recordView = new RecordView(this);
-    pushWidgetToStackView(recordView);
+    qDebug()<<"goMedicineEditView";
+    medicineEditView = new MedicineEditView(this,rowNo);
+    pushWidgetToStackView(medicineEditView);
+    //把编辑页面的返回前页面信号和master里面的返回前页面函数关联起来
+    //这个信号将在patientEditView里面发送，master作为收到信号的主体，收到信号就执行这个函数
+    connect(medicineEditView,SIGNAL(goPreviousView()),this, SLOT(goPreviousView()));
+}
+
+void MasterView::goRecordEditView(int rowNo)
+{
+    qDebug()<<"goRecordEditView";
+    recordEditView = new RecordEditView(this,rowNo);
+    pushWidgetToStackView(recordEditView);
+    //把编辑页面的返回前页面信号和master里面的返回前页面函数关联起来
+    //这个信号将在patientEditView里面发送，master作为收到信号的主体，收到信号就执行这个函数
+    connect(recordEditView,SIGNAL(goPreviousView()),this, SLOT(goPreviousView()));
 }
 
 
@@ -73,8 +88,16 @@ void MasterView::goMedicineView()
     qDebug()<<"goMedicineView";
     medicineView = new MedicineView(this);
     pushWidgetToStackView(medicineView);
+    connect(medicineView,SIGNAL(goMedicineEditView(int)),this,SLOT(goMedicineEditView(int)));
 }
 
+void MasterView::goRecordView()
+{
+    qDebug()<<"goDoctorView";
+    recordView = new RecordView(this);
+    pushWidgetToStackView(recordView);
+    connect(recordView,SIGNAL(goRecordEditView(int)),this,SLOT(goRecordEditView(int)));
+}
 
 
 void MasterView::goPatientEditView(int rowNo)

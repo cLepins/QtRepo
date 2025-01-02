@@ -15,9 +15,11 @@ SOURCES += \
     loginview.cpp \
     main.cpp \
     masterview.cpp \
+    medicineeditview.cpp \
     medicineview.cpp \
     patienteditview.cpp \
     patientview.cpp \
+    recordeditview.cpp \
     recordview.cpp \
     welcomeview.cpp
 
@@ -27,9 +29,11 @@ HEADERS += \
     idatabase.h \
     loginview.h \
     masterview.h \
+    medicineeditview.h \
     medicineview.h \
     patienteditview.h \
     patientview.h \
+    recordeditview.h \
     recordview.h \
     welcomeview.h
 
@@ -38,9 +42,11 @@ FORMS += \
     doctorview.ui \
     loginview.ui \
     masterview.ui \
+    medicineeditview.ui \
     medicineview.ui \
     patienteditview.ui \
     patientview.ui \
+    recordeditview.ui \
     recordview.ui \
     welcomeview.ui
 

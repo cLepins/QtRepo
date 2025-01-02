@@ -1,6 +1,9 @@
 #include "idatabase.h"
 #include <QUuid>
 #include <QDebug>
+#include <QTextStream>
+#include <QSqlQuery>
+#include <QFile>
 
 //0.用户登录调用数据库判断是否能够进入，并且区分管理员和普通医生的身份
 QString IDatabase::userLogin(QString userName, QString password) {
@@ -97,24 +100,62 @@ bool IDatabase::initDoctorModel()
     theDoctorSelection = new QItemSelectionModel(doctorTabModel);
     return true;
 
-    //
-    //patientTabModel->setPrimaryKey(QSqlIndex("ID")); // 设置主键（如适用）
-    //patientTabModel->select();
 }
 
+bool IDatabase::initMedicineModel()
+{
+    medicineTabModel = new QSqlTableModel(this,database);
+    medicineTabModel->setTable("Medicine");
+    // patientTabModel->setTable("patient");
+    medicineTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    medicineTabModel->setSort(medicineTabModel->fieldIndex("name"),Qt::AscendingOrder);
+    if(!(medicineTabModel->select()))
+    {
+        qDebug()<<"select false";
+        return false;
+    }
+    theMedicineSelection = new QItemSelectionModel(medicineTabModel);
+    return true;
+}
 
+bool IDatabase::initRecordModel()
+{
+    recordTabModel = new QSqlTableModel(this,database);
+    recordTabModel->setTable("Record");
+    // patientTabModel->setTable("patient");
+    recordTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    recordTabModel->setSort(recordTabModel->fieldIndex("name"),Qt::AscendingOrder);
+    if(!(recordTabModel->select()))
+    {
+        qDebug()<<"select false";
+        return false;
+    }
+    theRecordSelection = new QItemSelectionModel(recordTabModel);
+    return true;
+
+}
 //查找工作
 bool IDatabase::searchDoctor(QString filter)
 {
     doctorTabModel->setFilter(filter);
     return doctorTabModel->select();
 }
-
 bool IDatabase::searchPatient(QString filter)
 {
     patientTabModel->setFilter(filter);
     return patientTabModel->select();
 }
+bool IDatabase::searchMedicine(QString filter)
+{
+    medicineTabModel->setFilter(filter);
+    return medicineTabModel->select();
+}
+bool IDatabase::searchRecord(QString filter)
+{
+    recordTabModel->setFilter(filter);
+    return recordTabModel->select();
+}
+
 
 
 //添加
@@ -150,6 +191,36 @@ int IDatabase::addNewDoctor()
     return newRow;
 }
 
+int IDatabase::addNewMedicine()
+{
+    // 插入新行
+    int newRow = medicineTabModel->rowCount();
+    medicineTabModel->insertRow(newRow);
+
+    // 设置默认值
+    QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    medicineTabModel->setData(medicineTabModel->index(newRow, medicineTabModel->fieldIndex("ID")), uuid); // 设置 ID
+    medicineTabModel->setData(medicineTabModel->index(newRow, medicineTabModel->fieldIndex("CREATEDTIMESTAMP")), QDateTime::currentDateTime().toString("yyyy-MM-dd")); // 设置时间戳
+
+
+    qDebug() << "New Medicine ID:" << uuid;
+    return newRow;
+}
+
+int IDatabase::addNewRecord()
+{
+    // 插入新行
+    int newRow = recordTabModel->rowCount();
+    recordTabModel->insertRow(newRow);
+
+    // 设置默认值
+    QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    recordTabModel->setData(recordTabModel->index(newRow, recordTabModel->fieldIndex("ID")), uuid); // 设置 ID
+    recordTabModel->setData(recordTabModel->index(newRow, recordTabModel->fieldIndex("CREATEDTIMESTAMP")), QDateTime::currentDateTime().toString("yyyy-MM-dd")); // 设置时间戳
+
+    qDebug() << "New Record ID:" << uuid;
+    return newRow;
+}
 
 
 
@@ -170,6 +241,23 @@ void IDatabase::deleteCurrentDoctor()
     doctorTabModel->submitAll();
     doctorTabModel->select();
 }
+
+void IDatabase::deleteCurrentMedicine()
+{
+    QModelIndex curIndex = theMedicineSelection->currentIndex();
+    medicineTabModel->removeRow(curIndex.row());
+    medicineTabModel->submitAll();
+    medicineTabModel->select();
+}
+void IDatabase::deleteCurrentRecord()
+{
+    QModelIndex curIndex = theRecordSelection->currentIndex();
+    recordTabModel->removeRow(curIndex.row());
+    recordTabModel->submitAll();
+    recordTabModel->select();
+}
+
+
 
 
 //提交
@@ -221,6 +309,57 @@ bool IDatabase::submitDoctorEdit()
     return true;
 }
 
+bool IDatabase::submitMedicineEdit()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+
+    //可删
+    if (!db.transaction()) {
+        qDebug() << "1.Failed to start transaction:" << db.lastError().text();
+        return false;
+    }
+
+    if (!medicineTabModel->submitAll()) {
+        qDebug() << "2.Submit failed: " << medicineTabModel->lastError().text();
+        db.rollback(); // 回滚事务
+        return false;
+    }
+
+    if (!db.commit()) {
+        qDebug() << "3.Commit failed:" << db.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+//提交到数据库
+bool IDatabase::submitRecordEdit()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+
+    //可删
+    if (!db.transaction()) {
+        qDebug() << "1.Failed to start transaction:" << db.lastError().text();
+        return false;
+    }
+
+    if (!recordTabModel->submitAll()) {
+        qDebug() << "2.Submit failed: " << recordTabModel->lastError().text();
+        db.rollback(); // 回滚事务
+        return false;
+    }
+
+    if (!db.commit()) {
+        qDebug() << "3.Commit failed:" << db.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+
+
 
 //撤回操作
 void IDatabase::revertPatientEdit()
@@ -232,6 +371,18 @@ void IDatabase::revertDoctorEdit()
 {
     doctorTabModel->revertAll();
 }
+
+void IDatabase::revertMedicineEdit()
+{
+    medicineTabModel->revertAll();
+}
+
+
+void IDatabase::revertRecordEdit()
+{
+    recordTabModel->revertAll();
+}
+
 
 
 
@@ -301,6 +452,58 @@ bool IDatabase::sortDoctorList(const QString &sortField, bool ascending)
     model->select(); // 重新执行查询，加载排序后的数据
     return true;
 }
+
+
+bool IDatabase::sortMedicineList(const QString &sortField, bool ascending)
+{
+    QSqlTableModel *model = medicineTabModel;
+
+    // 根据排序字段选择对应的数据库列
+    QString orderByField;
+    if (sortField == "CREATEDTIMESTAMP") {
+        orderByField = "CREATEDTIMESTAMP"; // 按入职时间排序
+    } else if (sortField == "STOCK") {
+        orderByField = "STOCK"; // 按年龄排序
+    } else {
+        qDebug() << "Invalid sort field:" << sortField;
+        return false;
+    }
+
+    // 设置排序的顺序（升序或降序）
+    QString order = ascending ? "ASC" : "DESC";
+
+    // 更新模型的查询，添加ORDER BY子句
+    model->setFilter(""); // 清除当前的过滤条件
+    model->setSort(model->fieldIndex(orderByField), ascending ? Qt::AscendingOrder : Qt::DescendingOrder);
+    model->select(); // 重新执行查询，加载排序后的数据
+    return true;
+}
+
+bool IDatabase::sortRecordList(const QString &sortField, bool ascending)
+{
+    QSqlTableModel *model = recordTabModel;
+
+    // 根据排序字段选择对应的数据库列
+    QString orderByField;
+    if (sortField == "PATIENTNAME") {
+        orderByField = "PATIENTNAME"; // 按入职时间排序
+    } else if (sortField == "DOCTORNAME") {
+        orderByField = "DOCTORNAME"; // 按ID排序，不知道什么用就是了
+    } else {
+        qDebug() << "Invalid sort field:" << sortField;
+        return false;
+    }
+
+    // 设置排序的顺序（升序或降序）
+    QString order = ascending ? "ASC" : "DESC";
+
+    // 更新模型的查询，添加ORDER BY子句
+    model->setFilter(""); // 清除当前的过滤条件
+    model->setSort(model->fieldIndex(orderByField), ascending ? Qt::AscendingOrder : Qt::DescendingOrder);
+    model->select(); // 重新执行查询，加载排序后的数据
+    return true;
+}
+
 
 
 //从文件导入数据
@@ -373,4 +576,96 @@ bool IDatabase::importDoctorData(const QString &filePath)
     return true;
 }
 
+bool IDatabase::importMedicineData(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Failed to open file for reading!";
+        return false;
+    }
+
+    QTextStream in(&file);
+    QStringList headers = in.readLine().split(","); // 第一行作为表头
+    QSqlQuery query;
+
+    while (!in.atEnd()) {
+        QStringList line = in.readLine().split(",");
+        if (line.size() != headers.size()) continue;
+
+        query.prepare("INSERT INTO Medicine (ID, NAME, DOSAGE, STOCK, CREATEDTIMESTAMP) VALUES (?, ?, ?, ?, ?)");
+        query.addBindValue(line[0]);
+        query.addBindValue(line[1]);
+        query.addBindValue(line[2]);
+        query.addBindValue(line[3].toInt());
+        query.addBindValue(line[4]);
+
+        if (!query.exec()) {
+            qDebug() << "Failed to insert data:" << query.lastError();
+        }
+    }
+
+    file.close();
+    return true;
+}
+
+
+//从文件导出数据库
+bool IDatabase::exportMedicineData(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Failed to open file for writing!";
+        return false;
+    }
+
+
+    QTextStream out(&file);
+    out << QChar(0xFEFF); // 写入 UTF-8 BOM
+
+    QSqlQuery query("SELECT * FROM Medicine");
+
+    // 生成CSV表头
+    out << "ID,NAME,DOSAGE,STOCK,CREATEDTIMESTAMP\n";
+
+    while (query.next()) {
+        out << query.value(0).toString() << ","
+            << query.value(1).toString() << ","
+            << query.value(2).toString() << ","
+            << query.value(3).toInt() << ","
+            << query.value(4).toString() << "\n";
+    }
+
+    file.close();
+    return true;
+}
+
+
+bool IDatabase::exportRecordData(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Failed to open file for writing!";
+        return false;
+    }
+
+    QTextStream out(&file);
+    out << QChar(0xFEFF); // 写入 UTF-8 BOM
+
+    QSqlQuery query("SELECT * FROM Record");
+
+    // 生成 CSV 表头
+    out << "ID,PATIENTNAME,DOCTORNAME,MEDICINE,CREATEDTIMESTAMP,DIAGNOSIS\n";
+
+    while (query.next()) {
+        out << query.value(0).toString() << ","
+            << query.value(1).toString() << ","
+            << query.value(2).toString() << ","
+            << query.value(3).toString() << ","
+            << query.value(4).toString() << ","
+            << query.value(5).toString() << "\n";
+    }
+
+    file.close();
+    return true;
+}
 

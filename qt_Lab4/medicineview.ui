@@ -1,18 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MedicineView</class>
- <widget class="QDialog" name="MedicineView">
+ <widget class="QWidget" name="MedicineView">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>873</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Form</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="txtSearch">
+       <property name="placeholderText">
+        <string>请输入药名进行查找</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btExport">
+       <property name="text">
+        <string>导出</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btImport">
+       <property name="text">
+        <string>导入</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btAdd">
+       <property name="text">
+        <string>添加</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/img/添加.png</normaloff>:/img/添加.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btSearch">
+       <property name="text">
+        <string>查找</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/img/查找.png</normaloff>:/img/查找.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btDelete">
+       <property name="text">
+        <string>删除</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/img/删除.png</normaloff>:/img/删除.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btEdit">
+       <property name="text">
+        <string>修改</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/img/修改.png</normaloff>:/img/修改.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox">
+       <item>
+        <property name="text">
+         <string>CREATEDTIMESTAMP </string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>STOCK</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTableView" name="tableView"/>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
